@@ -27,7 +27,7 @@ class Posts(models.Model):
     author = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     text_content = models.CharField(max_length=200, default='')
     media_link = models.URLField(default='', blank=True)
-    created_at = models.DateTimeField()
+    created_at = models.DateField(auto_now_add=True, null=True)
     explicit = models.BooleanField(default=0)
     class Meta:
         ordering = ['id']
@@ -36,5 +36,12 @@ class Post_reply(models.Model):
     id = models.AutoField(primary_key=True)
     reply_post = models.ForeignKey(Posts, on_delete=models.CASCADE, related_name='reply')
     reply_to = models.ForeignKey(Posts, on_delete=models.CASCADE, related_name='original')
+    class Meta:
+        ordering = ['id']
+
+class Post_likes(models.Model):
+    id = models.AutoField(primary_key=True)
+    liker = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='liker')
+    post = models.ForeignKey(Posts, on_delete=models.CASCADE)
     class Meta:
         ordering = ['id']
