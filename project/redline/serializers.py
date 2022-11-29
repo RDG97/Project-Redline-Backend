@@ -6,7 +6,7 @@ class UserSerializer(serializers.Serializer):
     filter_explicit = serializers.BooleanField(required=True)
     screen_name = serializers.CharField(required=True, allow_blank=False)
     bio = serializers.CharField(required=True, allow_blank=False)
-    profile_pic = serializers.URLField()
+    profile_pic = serializers.URLField(allow_blank=True)
     bgImage = serializers.URLField(required=False)
     username = serializers.CharField(required=True)
     password = serializers.CharField(required=True)
