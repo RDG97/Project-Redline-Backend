@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from redline.models import CustomUser, Is_following, Posts, Post_reply, Post_likes
 
-class UserSerializer(serializers.Serializer):
+class UserSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     filter_explicit = serializers.BooleanField(required=True)
     screen_name = serializers.CharField(required=True, allow_blank=False)
@@ -13,9 +13,18 @@ class UserSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
     class Meta:
         model = CustomUser
-        fields = ['filter_explicit', 'screen_name', 'bio', 'profile_pic', 'bgImage', 'username', 'password', 'email',]
+        fields = ['id', 'filter_explicit', 'screen_name', 'bio', 'profile_pic', 'bgImage', 'username', 'password', 'email',]
+        extra_kwargs = {'password': {'write_only': True}}
+
     def create(self, validated_data):
-        return CustomUser.objects.create(**validated_data)
+        print('running create')
+        password = validated_data.pop('password', None)
+        instance = self.Meta.model(**validated_data)  # as long as the fields are the same, we can just use this
+        if password is not None:
+            instance.set_password(password)
+        instance.save()
+        return instance
+
     def update(self, instance, validated_data):
         instance.filter_explicit = validated_data.get('filter_explicit', instance.filter_explicit)
         instance.screen_name = validated_data.get('screen_name', instance.screen_name)

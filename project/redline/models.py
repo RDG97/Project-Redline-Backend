@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.hashers import make_password
 
 class CustomUser(AbstractUser):
     is_banned = models.BooleanField(default=0)
@@ -8,10 +9,12 @@ class CustomUser(AbstractUser):
     bio = models.CharField(max_length=150, default='')
     profile_pic = models.URLField(default="https://kasmanninsurance.com/wp-content/uploads/2015/10/Car_with_Driver-Silhouette.svg-red.png")
     bgImage = models.URLField(default='')
+
     class Meta:
         ordering = ['id']
     def __str__(self):
         return self.username
+
 
 class Is_following(models.Model):
     id = models.AutoField(primary_key=True)
