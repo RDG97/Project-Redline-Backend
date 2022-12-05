@@ -18,6 +18,9 @@ urlpatterns = [
 
     path('token/obtain/', jwt_views.TokenObtainPairView.as_view(), name='token_create'),
     path('token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
+
+    path('Following/', views.IsFollowingList.as_view()),
+    path('Following/<int:pk>', views.IsFollowingDetail.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
