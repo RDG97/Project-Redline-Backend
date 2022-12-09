@@ -48,3 +48,19 @@ class Post_likes(models.Model):
     post = models.ForeignKey(Posts, on_delete=models.CASCADE)
     class Meta:
         ordering = ['id']
+
+class Vehicles(models.Model):
+    owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    nickname = models.CharField(max_length=30)
+    car_year = models.IntegerField(max_length=150)
+    car_make = models.CharField(max_length=150)
+    car_model = models.CharField(max_length=150)
+    car_trim = models.CharField(max_length=150)
+    weight = models.IntegerField()
+    powercc = models.IntegerField()
+    lkm = models.IntegerField()
+    powerps = models.IntegerField()
+    torque = models.IntegerField()
+    compression = models.IntegerField()
+    class Meta:
+        ordering = ['id']

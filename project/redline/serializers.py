@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from redline.models import CustomUser, Is_following, Posts, Post_reply, Post_likes
+from redline.models import CustomUser, Is_following, Posts, Post_reply, Post_likes, Vehicles
 
 class UserSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
@@ -119,5 +119,43 @@ class PostLikesSerializer(serializers.Serializer):
     def update(self, instance, validated_data):
         instance.liker = validated_data.get('liker', instance.liker)
         instance.post = validated_data.get('post', instance.post)
+        instance.save()
+        return instance
+
+class VehicleSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    owner = serializers.PrimaryKeyRelatedField(
+    many=False,
+    queryset=CustomUser.objects.all()
+    )
+    nickname = serializers.CharField(required=True)
+    car_year = serializers.IntegerField(required=True)
+    car_make = serializers.CharField(required=True)
+    car_model = serializers.CharField(required=True)
+    car_trim = serializers.CharField(required=True)
+    weight = serializers.IntegerField(required=True)
+    powercc = serializers.IntegerField(required=True)
+    lkm = serializers.IntegerField(required=True)
+    powerps = serializers.IntegerField(required=True)
+    torque = serializers.IntegerField(required=True)
+    compression = serializers.IntegerField(required=True)
+    class Meta:
+        model = Vehicles
+        fields = ['owner', 'nickname', 'car_year', 'car_make', 'car_model', 'car_trim', 'weight', 'powercc', 'lkm', 'powerps', 'torque', 'compression',]
+    def create(self, validated_data):
+        return Vehicles.objects.create(**validated_data)
+    def update(self, instance, validated_data):
+        instance.owner = validated_data.get('owner', instance.owner)
+        instance.nickname = validated_data.get('nickname', instance.nickname)
+        instance.car_year = validated_data.get('car_year', instance.car_year)
+        instance.car_make = validated_data.get('car_make', instance.car_make)
+        instance.car_model = validated_data.get('car_model', instance.car_model)
+        instance.car_trim = validated_data.get('car_trim', instance.car_trim)
+        instance.weight = validated_data.get('weight', instance.weight)
+        instance.powercc = validated_data.get('powercc', instance.powercc)
+        instance.lkm = validated_data.get('lkm', instance.lkm)
+        instance.powerps = validated_data.get('powerps', instance.powerps)
+        instance.torque = validated_data.get('torque', instance.torque)
+        instance.compression = validated_data.get('compression', instance.compression)
         instance.save()
         return instance

@@ -24,6 +24,10 @@ urlpatterns = [
     path('Following/', views.IsFollowingList.as_view()),
     path('Following/<int:pk>', views.IsFollowingDetail.as_view()),
 
+    path('Vehicles/', views.VehiclesList.as_view()),
+    path('Vehicles/<int:pk>', views.VehiclesDetail.as_view()),
+
+
     path('cars/', views.get_cars),
 ]
 

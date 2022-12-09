@@ -1,6 +1,6 @@
 from rest_framework import generics, status
-from redline.models import CustomUser, Is_following, Posts, Post_likes, Post_reply
-from redline.serializers import UserSerializer, IsFollowingSerializer, PostSerializer, PostReplySerializer, PostLikesSerializer
+from redline.models import CustomUser, Is_following, Posts, Post_likes, Post_reply, Vehicles
+from redline.serializers import UserSerializer, IsFollowingSerializer, PostSerializer, PostReplySerializer, PostLikesSerializer, VehicleSerializer
 import json
 import requests
 from django.http import HttpResponse
@@ -44,6 +44,14 @@ class IsFollowingDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Is_following.objects.all()
     serializer_class = IsFollowingSerializer
 
+class VehiclesList(generics.ListCreateAPIView):
+    queryset = Vehicles.objects.all()
+    serializer_class = VehicleSerializer
+
+class VehiclesDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Vehicles.objects.all()
+    serializer_class = VehicleSerializer
+
 
 #f"https://www.carqueryapi.com/api/0.3/?callback=?&cmd=getTrims&make=ford&model=fiesta&year={}"
 
@@ -59,14 +67,4 @@ def get_cars(request):
     print(response.text)
     data = response.text
     print(data[2:-2])
-    # sorted_data = sorted(data, key=lambda k: k["id"], reverse=False)
-    # page_num = request.GET.get("page", 1)
-    # paginator = Paginator(sorted_data, 25)
-    # try:
-    #     page_obj = paginator.page(page_num)
-    # except PageNotAnInteger:
-    #     page_obj = paginator.page(1)
-    # except EmptyPage:
-    #     page_obj = paginator.page(paginator.num_pages)
-    # result_list = list(page_obj)
     return HttpResponse(json.dumps(data[2:-2]), content_type="application/json")
