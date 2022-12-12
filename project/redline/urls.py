@@ -2,6 +2,8 @@ from django.urls import path
 from rest_framework.urlpatterns import format_suffix_patterns
 from redline import views
 from rest_framework_simplejwt import views as jwt_views
+import json
+import requests
 
 urlpatterns = [
     path('Users/', views.UserList.as_view()),
@@ -21,6 +23,12 @@ urlpatterns = [
 
     path('Following/', views.IsFollowingList.as_view()),
     path('Following/<int:pk>', views.IsFollowingDetail.as_view()),
+
+    path('Vehicles/', views.VehiclesList.as_view()),
+    path('Vehicles/<int:pk>', views.VehiclesDetail.as_view()),
+
+
+    path('cars/', views.get_cars),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
